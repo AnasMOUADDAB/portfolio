@@ -73,8 +73,8 @@
                         <li><strong>Lissage :</strong> Algorithme de smoothing pour éliminer les micro-tremblements de la caméra et rendre l'expérience fluide.</li>
                     </ul>
                 </div>
-                <div class="visual-box">
-                    <img src="media/tracking-visu.jpg" alt="Visualisation du tracking facial MediaPipe">
+                <div class="visual-box" controls style="width: 70%;">
+                    <img src="media/face_landmarker.png" alt="Visualisation du tracking facial MediaPipe">
                 </div>
             </div>
         </div>
@@ -82,18 +82,21 @@
 
     <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
         <div class="container">
-            <h2 class="section-title">Mathématiques : Projection Off-Axis</h2>
+            <h2 class="section-title">Projection Off-Axis</h2>
             <div class="split-layout">
                 <div class="visual-box" style="background: white; padding: 10px;">
-                    <img src="media/frustum-maths.png" 
-                         alt="Schéma de déformation du Frustum OpenGL" 
-                         class="zoomable-image" 
-                         onclick="openModal(this)">
-                    <p style="text-align: center; color: #333; font-size: 0.8rem; margin-top: 5px;">(Cliquez pour agrandir le schéma)</p>
+                    <video controls style="width: 100%;">
+                        <source src="media/head_tracking.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
                 </div>
                 <div>
-                    <p>C'est ici que réside la complexité technique. Contrairement à un jeu vidéo classique où la caméra tourne, ici la caméra virtuelle reste fixe, mais sa <strong>pyramide de vision (Frustum)</strong> se déforme.</p>
-                    <p>Le script <code>scene_renderer.py</code> utilise <strong>OpenGL</strong> pour modifier la matrice de projection (<code>glFrustum</code>) dynamiquement.</p>
+                    <p>C'est ici que réside la complexité technique majeure du projet car l'approche diffère radicalement du rendu 3D traditionnel. Contrairement à un jeu vidéo classique où la caméra effectue des 
+                        rotations autour d'un point central, notre système simule une fenêtre physique immobile en utilisant une projection dite Off-Axis. Le script scene_renderer.py abandonne la caméra standard 
+                        pour modifier dynamiquement la matrice de projection via la fonction OpenGL glFrustum à chaque image. Cette méthode permet de générer une pyramide de vision asymétrique qui relie la 
+                        position exacte des yeux de l'utilisateur aux quatre coins fixes de l'écran. Concrètement, lorsque l'observateur déplace sa tête, la perspective est recalculée mathématiquement pour 
+                        déformer le volume de vue, ce qui crée une parallaxe naturelle permettant de voir le côté des objets ou derrière eux, exactement comme si l'écran était une vitre transparente donnant sur 
+                        une scène réelle.</p>
                     <p style="margin-top: 20px; border-left: 3px solid var(--secondary-accent); padding-left: 15px; color: #cbd5e1;">
                         <em>Résultat : Si l'utilisateur penche la tête à gauche, il voit le côté droit des objets 3D, exactement comme s'il regardait à travers une vraie fenêtre.</em>
                     </p>
@@ -115,9 +118,9 @@
                         <li><strong>Import STL :</strong> L'utilisateur peut charger ses propres modèles CAD via une interface GUI (Tkinter) intégrée à la vue OpenGL.</li>
                     </ul>
                 </div>
-                <div class="visual-box">
+                <div class="visual-box" controls style="width: 80%;">
                     <video controls style="width: 100%;">
-                        <source src="media/hologram-demo.mp4" type="video/mp4">
+                        <source src="media/hand_tracking.mp4" type="video/mp4">
                         Votre navigateur ne supporte pas la vidéo.
                     </video>
                 </div>
