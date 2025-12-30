@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spider Bot AI | Détails Projet</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques à cette page */
+        .project-hero {
+            height: 70vh;
+            /* FICHIER MEDIA : L'image de fond principale */
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), var(--bg-color)), url('media/spider-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 60px;
+            position: relative;
+        }
+
+        .content-section {
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .tech-list {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tech-badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .visual-box {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .visual-box img, .visual-box video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .conclusion-box {
+            background: linear-gradient(45deg, #1e293b, #0f172a);
+            padding: 40px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .split-layout { grid-template-columns: 1fr; }
+            .project-hero { height: 50vh; }
+        }
+
+        /* --- Style pour le Zoom (Lightbox) --- */
+.zoomable-image {
+    cursor: zoom-in; /* Change le curseur pour montrer qu'on peut cliquer */
+    transition: 0.3s;
+}
+
+.zoomable-image:hover {
+    opacity: 0.9;
+}
+
+/* Le fond noir de la fenêtre modale */
+.modal {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    z-index: 1000; /* Au-dessus de tout */
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9); /* Noir presque opaque */
+}
+
+/* L'image zoomée */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1200px;
+    max-height: 90vh; /* Ne dépasse pas la hauteur de l'écran */
+    object-fit: contain;
+    animation-name: zoom;
+    animation-duration: 0.3s;
+}
+
+/* Petite animation d'ouverture */
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* Bouton fermer (X) */
+.close-text {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+
+    <header class="project-hero">
+        <div class="container">
+            <a href="index.html" style="color: #cbd5e1; text-decoration: none; margin-bottom: 15px; display: block;">← Retour aux projets</a>
+            <h1>Spider Bot <span class="accent">AI Edition</span></h1>
+            <p class="subtitle" style="max-width: 600px; color: #e2e8f0;">
+                Un robot hexapode bio-inspiré capable de se mouvoir en terrain complexe grâce à la cinématique inverse, piloté par une Intelligence Artificielle embarquée pour la prise de décision autonome.
+            </p>
+            
+            <div class="tech-list">
+                <span class="tech-badge">Raspberry Pi 4</span>
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Matlab (Sim)</span>
+                <span class="tech-badge">LLM / NLP</span>
+            </div>
+        </div>
+        
+    </header>
+        
+    <section class="content-section">
+        <div class="container">
+            <div class="split-layout">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Architecture Hardware</h2>
+                    <p>La robustesse mécanique et la puissance de calcul étaient les priorités. Le corps est imprimé en 3D (PLA/PETG) pour allier légèreté et solidité.</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Cerveau :</strong> Raspberry Pi 4 (8GB RAM). Cette mémoire est indispensable pour faire tourner le modèle de langage (LLM) en local sans ralentir les calculs cinématiques.</li>
+                        <li><strong>Actionneurs :</strong> 12 Servomoteurs MG996R (engrenages métalliques). Ils offrent 3 degrés de liberté (DOF) par patte, garantissant une liberté de mouvement totale et une bonne robustesse.</li>
+                        <li><strong>Contrôle Moteur :</strong> Driver PCA9685 via I2C. Ce module gère les signaux PWM avec précision, ce qui supprime les tremblements et évite de surcharger le processeur central.</li>
+                        <li><strong>Alimentation :</strong> 4 Batteries Lithium avec Buck Converters. L'alimentation est régulée via des circuits séparés pour isoler la partie logique (sensible) de la partie puissance (moteurs), assurant une stabilité parfaite.</li>
+                    </ul>
+                </div>
+                <div class="visual-box" controls style="width: 70%;">
+                    <img src="media/spiderbot.png" alt="Vue éclatée des composants hardware"
+                        class="zoomable-image" 
+                        onclick="openModal(this)">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <div class="split-layout">
+                <div class="visual-box">
+                    <video controls style="width: 100%;">
+                        <source src="media/spiderbot_simulation.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+                </div>
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Cinématique Inverse (IK)</h2>
+                    <p>Avant d'envoyer la moindre commande aux moteurs, chaque mouvement a été modélisé mathématiquement.</p>
+                    <p>Le principe de la Cinématique Inverse repose sur une approche mathématique où la destination prime sur le mouvement. 
+                        Plutôt que de piloter les moteurs arbitrairement, on définit une coordonnée cible (X, Y, Z) dans l'espace correspondant 
+                        exactement à l'endroit où le pied du robot doit se poser. Le script Matlab développé permet alors de remonter le calcul pour 
+                        déterminer automatiquement la configuration angulaire nécessaire des articulations pour atteindre ce point précis. La 
+                        résolution de ce problème tridimensionnel se fait par une décomposition géométrique en deux plans distincts. Dans un premier 
+                        temps, l'algorithme calcule l'orientation de la hanche dans le plan horizontal en utilisant la trigonométrie de base pour 
+                        aligner la patte vers sa cible. Dans un second temps, il résout la géométrie verticale de la patte en la modélisant comme un 
+                        triangle formé par le fémur, le tibia et la distance à la cible.  En appliquant le théorème d'Al-Kashi, ou loi des cosinus, 
+                        le système déduit les angles exacts des deux autres servomoteurs. Cette méthode garantit que le robot peut exécuter des 
+                        trajectoires rectilignes fluides et maintenir son équilibre, transformant ainsi des coordonnées spatiales complexes en commandes 
+                        moteurs simples interprétables par le microcontrôleur. Cette étape de simulation a permis de valider les limites mécaniques et 
+                        d'éviter les collisions avant l'implémentation en Python sur le robot réel.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+           
+
+            <div class="split-layout">
+                <div>
+                     <h2 class="section-title">Le "Cerveau" : LLM Embarqué</h2>
+                    <p>
+                        L'innovation majeure de ce projet est l'intégration d'un Large Language Model (LLM) tournant localement sur la Raspberry Pi, rendant le robot capable de comprendre des instructions humaines complexes via une interface de communication (ChatBot), le LLM interprète la commande de l'utilisateur et fait la différence entre commande d'une mission qui necéssite des mouvements ou simplement une question dont il faudra répendre dans le chat.
+                    </p>
+                    <h3>Fonctionnement du Pipeline IA</h3>
+                    <p>Le système ne se contente pas de commandes basiques ("Avance"). Il interprète l'intention.</p>
+                    <ol style="margin-left: 20px; margin-top: 20px; color: #cbd5e1; gap: 10px; display: flex; flex-direction: column;">
+                        <li><strong>Input :</strong> L'utilisateur donne un ordre textuel (ex: "Effectuer une patrouille").</li>
+                        <li><strong>Traitement LLM :</strong> Le modèle (tournant via Ollama/Llama.cpp) analyse la phrase et la déduit en une suite d'actions logiques.</li>
+                        <li><strong>Traduction JSON :</strong> Le LLM renvoie une structure de commande formatée (ex: <code>{"action": "turn_right", "angle": 45, "speed": "slow"}</code>).</li>
+                        <li><strong>Exécution :</strong> Le script Python de contrôle traduit ce JSON en mouvements moteurs via l'IK.</li>
+                    </ol>
+                </div>
+                <div class="visual-box" style="background: white; padding: 10px;">
+                    <img src="media/logigramme_LLM.png" alt="Logigramme du pipeline LLM"
+                        alt="Logigramme du pipeline LLM" 
+                        class="zoomable-image" 
+                        onclick="openModal(this)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="conclusion-box">
+                <h3 style="color: var(--accent-color); margin-bottom: 15px;">Conclusion & Apprentissages</h3>
+                <p>
+                    Ce projet "Spider Bot" a été une opportunité de fusionner la mécanique de précision avec l'IA moderne. J'ai pu valider des compétences clés en <strong>robotique mobile</strong> (gestion des degrés de liberté, équilibre) tout en explorant les frontières de l'<strong>IA embarquée</strong> (optimisation de modèles pour processeurs limités). 
+                </p>
+                <p style="margin-top: 15px;">
+                    Le résultat est une plateforme autonome, capable non seulement de se mouvoir, mais de comprendre son environnement et d'agir en conséquence.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: 30px 0; color: #64748b;">
+            <a href="index.html" class="btn">← Revenir à l'accueil</a>
+            <p style="margin-top: 30px; font-size: 0.9rem; color: #64748b;">&copy; 2026 Anas Mouaddab</p>
+        </div>
+    </footer>
+    <div id="myModal" class="modal" onclick="closeModal()">
+    <span class="close-text">&times;</span>
+    <img class="modal-content" id="img01">
+    <div style="text-align: center; color: #ccc; padding: 10px;">Cliquez n'importe où pour fermer</div>
+    </div>
+
+    <script>
+        // Fonction pour ouvrir le zoom
+        function openModal(element) {
+            var modal = document.getElementById("myModal");
+            var modalImg = document.getElementById("img01");
+            modal.style.display = "block";
+            modalImg.src = element.src; // On copie l'image cliquée dans la modale
+        }
+
+        // Fonction pour fermer le zoom
+        function closeModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>

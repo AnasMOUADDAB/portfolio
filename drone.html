@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri-Drone IoT | Smart Farming</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques */
+        .project-hero {
+            height: 70vh;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.7), var(--bg-color)), url('media/drone-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 60px;
+        }
+
+        .content-section { padding: 60px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .tech-list { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        
+        .tech-badge {
+            background: rgba(56, 189, 248, 0.1); 
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color); 
+            padding: 5px 15px; border-radius: 20px;
+            font-family: 'Roboto Mono', monospace; font-size: 0.9rem;
+        }
+
+        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .visual-box { border-radius: 12px; overflow: hidden; border: 1px solid #334155; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .visual-box img, .visual-box video { width: 100%; display: block; }
+        
+        /* Lightbox (Zoom) */
+        .zoomable-image { cursor: zoom-in; transition: 0.3s; }
+        .zoomable-image:hover { opacity: 0.9; }
+        .modal { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); }
+        .modal-content { margin: auto; display: block; width: 80%; max-width: 1200px; max-height: 90vh; object-fit: contain; }
+        .close-text { position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
+
+        @media (max-width: 768px) { .split-layout { grid-template-columns: 1fr; } .project-hero { height: 50vh; } }
+    </style>
+</head>
+<body>
+
+    <header class="project-hero">
+        <div class="container">
+            <a href="index.html" style="color: #cbd5e1; text-decoration: none; margin-bottom: 15px; display: block;">← Retour aux projets</a>
+            <h1>Smart <span class="accent">Agri-Drone</span> IoT</h1>
+            <p class="subtitle" style="max-width: 650px; color: #e2e8f0;">
+                Système complet d'agriculture de précision interconnecté. Fusionne les données aériennes (Drone Autonome) et terrestres (Sondes ESP32) pour une surveillance temps réel.
+            </p>
+            <div class="tech-list">
+                <span class="tech-badge">Raspberry Pi + Navio2</span>
+                <span class="tech-badge">Matlab Simulation</span>
+                <span class="tech-badge">IoT Protocol</span>
+                <span class="tech-badge">Web Dashboard</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Architecture Distribuée</h2>
+            <div class="split-layout">
+                <div class="visual-box" style="background: white; padding: 10px;">
+                    <img src="media/IOT.png" 
+                         alt="Schéma de l'architecture IoT Drone et Sol" 
+                         class="zoomable-image" 
+                         onclick="openModal(this)">
+                </div>
+                <div>
+                    <p>La force de ce projet réside dans la communication entre trois entités distinctes :</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Le Vecteur Aérien :</strong> Un drone quadcoptère autonome qui scanne la zone et mesure les conditions atmosphériques.</li>
+                        <li><strong>Le Réseau Terrestre :</strong> Des nœuds fixes basés sur <strong>ESP32</strong> plantés dans le sol pour remonter l'humidité de la terre.</li>
+                        <li><strong>Le Hub de Contrôle :</strong> Une interface centrale qui agrège toutes les données via un protocole IoT pour aider l'agriculteur à décider.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <div class="split-layout">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">1. Hardware & Navio2</h2>
+                    <p>Contrairement aux contrôleurs de vol "boîte noire", j'ai opté pour une approche Linux embarqué pour une flexibilité totale.</p>
+                    <ul style="margin-left: 20px; margin-top: 15px; color: #cbd5e1;">
+                        <li><strong>Cœur :</strong> Raspberry Pi 4 couplée à un HAT <strong>Emlid Navio2</strong>. Cela permet de faire tourner ArduPilot tout en exécutant des scripts Python en parallèle.</li>
+                        <li><strong>Capteurs :</strong> Le drone transporte ses propres capteurs de température/humidité pour cartographier le micro-climat.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <img src="media/drone.png" alt="Montage Navio2 sur Raspberry Pi">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">2. Simulation & Path Planning</h2>
+            <div class="split-layout">
+                <div class="visual-box">
+                    <video controls style="width: 100%;">
+                        <source src="media/Simulation_Drone.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+                    <img src="media/mapping_drone.png" alt="Mapping du drone">
+                </div>
+                <div>
+                    <h3>Algorithme de Balayage</h3>
+                    <p>Avant le vol réel, la mission a été entièrement modélisée sous <strong>Matlab</strong> pour optimiser la trajectoire.</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Coverage Path Planning :</strong> Simulation d'un vol en "zigzag" (va-et-vient) pour couvrir 100% de la surface définie.</li>
+                        <li><strong>Acquisition de Données :</strong> Le script simule la capture des capteurs à intervalles réguliers sur chaque point de passage.</li>
+                        <li><strong>Output :</strong> Génération automatique d'une <strong>Heatmap</strong> (carte de chaleur) montrant les zones critiques (ex: zones trop sèches ou trop chaudes) sur la carte du terrain.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <h2 class="section-title">3. Visualisation Temps Réel</h2>
+            <p style="max-width: 800px; margin: 0 auto 40px auto; text-align: center; color: #94a3b8;">
+                Le résultat final : un outil d'aide à la décision pour l'agriculteur.
+            </p>
+            
+            <div class="split-layout">
+                <div>
+                    <h3>Le Dashboard Agricole</h3>
+                    <p>Toutes les données (Simulation, Drone réel, Capteurs sol) sont centralisées :</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Monitoring :</strong> Jauges d'humidité du sol en temps réel.</li>
+                        <li><strong>Suivi de Vol :</strong> Position GPS du drone sur la carte.</li>
+                        <li><strong>Alerting :</strong> Notification immédiate si l'humidité descend sous le seuil critique.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <img src="media/inerface_drone.png" alt="Interface Utilisateur Dashboard">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: 40px 0;">
+            <a href="index.html" class="btn">← Revenir à l'accueil</a>
+            <p style="margin-top: 30px; font-size: 0.9rem; color: #64748b;">&copy; 2026 Anas Mouaddab</p>
+        </div>
+    </footer>
+
+    <div id="myModal" class="modal" onclick="closeModal()">
+      <span class="close-text">&times;</span>
+      <img class="modal-content" id="img01">
+    </div>
+    <script>
+        function openModal(element) {
+            document.getElementById("myModal").style.display = "block";
+            document.getElementById("img01").src = element.src;
+        }
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

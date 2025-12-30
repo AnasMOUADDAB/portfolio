@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Vehicle | Sensor Fusion</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques */
+        .project-hero {
+            height: 70vh;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.7), var(--bg-color)), url('media/vehicle-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 60px;
+        }
+
+        .content-section { padding: 60px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .tech-list { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        
+        .tech-badge {
+            background: rgba(56, 189, 248, 0.1); 
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color); 
+            padding: 5px 15px; border-radius: 20px;
+            font-family: 'Roboto Mono', monospace; font-size: 0.9rem;
+        }
+
+        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .visual-box { border-radius: 12px; overflow: hidden; border: 1px solid #334155; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .visual-box img { width: 100%; display: block; }
+        
+        /* Lightbox (Zoom) */
+        .zoomable-image { cursor: zoom-in; transition: 0.3s; }
+        .zoomable-image:hover { opacity: 0.9; }
+        .modal { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); }
+        .modal-content { margin: auto; display: block; width: 80%; max-width: 1200px; max-height: 90vh; object-fit: contain; }
+        .close-text { position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
+
+        @media (max-width: 768px) { .split-layout { grid-template-columns: 1fr; } .project-hero { height: 50vh; } }
+    </style>
+</head>
+<body>
+
+    <header class="project-hero">
+        <div class="container">
+            <a href="index.html" style="color: #cbd5e1; text-decoration: none; margin-bottom: 15px; display: block;">← Retour aux projets</a>
+            <h1>Autonomous <span class="accent">Mini-Vehicle</span></h1>
+            <p class="subtitle" style="max-width: 650px; color: #e2e8f0;">
+                Prototype de véhicule autonome à échelle réduite capable de naviguer en milieu urbain simulé. 
+                Combine Vision par Ordinateur (Suivi de voie, Panneaux) et LiDAR (Évitement d'obstacles).
+            </p>
+            <div class="tech-list">
+                <span class="tech-badge">Raspberry Pi 4</span>
+                <span class="tech-badge">YOLOv8 (AI)</span>
+                <span class="tech-badge">LiDAR LD19</span>
+                <span class="tech-badge">Sensor Fusion</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="split-layout">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Architecture Matérielle</h2>
+                    <p>Basé sur le châssis <em>Adeept PiCar-B</em>, le système a été largement modifié pour accueillir des capteurs de pointe.</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Calcul :</strong> Raspberry Pi 4 (4GB RAM) gère tout le traitement en local (Vision + Lidar + Décision).</li>
+                        <li><strong>Vision :</strong> Caméra RPi Module pour l'analyse de la route et la signalisation.</li>
+                        <li><strong>Distance :</strong> LiDAR LD19 360° pour une cartographie précise des obstacles.</li>
+                        <li><strong>Support :</strong> Conception et impression 3D d'un support spécifique pour aligner le LiDAR et la caméra.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <img src="media/hardwareKit_vehicule.png" alt="Vue détaillée du Hardware (RPi + Lidar)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <h2 class="section-title">Perception & Intelligence Artificielle</h2>
+            <div class="split-layout">
+                <div class="visual-box">
+                    <img src="media/line_following.png" alt="line following">
+                    <img src="media/YOLOv8_pietons.jpeg" alt="Détection piéton avec YOLOv8n">
+                </div>
+                <div>
+                    <h3>L'Oeil du Robot (Computer Vision)</h3>
+                    <p>Le véhicule ne se contente pas de suivre une ligne, il comprend ce qu'il voit grâce à deux algorithmes parallèles :</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Suivi de Voie (OpenCV) :</strong> Le système assure le maintien de la trajectoire en traitant le flux vidéo en temps réel via une chaîne algorithmique séquentielle. Pour garantir une détection
+                            fiable indépendamment des conditions d'éclairage ou des ombres, l'image brute est d'abord convertie de l'espace couleur RVB vers l'espace HSV, avant d'être rognée pour ne conserver que la zone de la route et ignorer 
+                            le décor environnant. L'algorithme extrait ensuite les contours géométriques grâce au filtre de Canny et à la Transformée de Hough, ce qui permet de modéliser mathématiquement les lignes au sol et de calculer l'angle 
+                            de braquage nécessaire pour centrer le véhicule en permanence.</li>
+                        <li><strong>Sécurité (YOLOv8n) :</strong> Un second processus tourne simultanément pour apporter une compréhension sémantique de l'environnement grâce au modèle de réseau de neurones YOLOv8n, spécifiquement optimisé pour 
+                            une exécution rapide sur des systèmes embarqués. Ce module scanne l'image en permanence pour identifier et encadrer des obstacles vivants comme des piétons ou des cyclistes, en appliquant un filtre de confiance strict 
+                            supérieur à 50 % pour éliminer les fausses alertes. Dès qu'une menace est confirmée, ce module de sécurité prend la priorité absolue sur le suivi de ligne et coupe instantanément la motorisation pour prévenir tout 
+                            accident, agissant comme un superviseur intelligent.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="split-layout">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Le Cerveau : Fusion de Capteurs</h2>
+                    <p>Architecture Décisionnelle et Fusion de Capteurs L'un des obstacles techniques les plus complexes de ce projet a été la mise en œuvre d'une stratégie de 
+                        fusion de données robuste, capable de gérer les incohérences inévitables entre les différents systèmes de perception. En conditions réelles, il est fréquent 
+                        que les capteurs envoient des signaux contradictoires par exemple, la caméra peut détecter une voie parfaitement dégagée alors que le LiDAR repère 
+                        simultanément une obstruction physique invisible optiquement. Pour prévenir toute indétermination comportementale qui pourrait s'avérer dangereuse, nous 
+                        avons dû rejeter une approche par simple consensus pour développer un algorithme de décision strictement hiérarchisé. Ce système agit comme un arbitre 
+                        logique en temps réel, classant chaque entrée sensorielle selon un niveau de priorité critique pour garantir que la sécurité ne soit jamais compromise par 
+                        une erreur d'interprétation de la navigation.</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Priorité Sécurité (LiDAR) :</strong> Le défi majeur de l'architecture logicielle résidait dans l'arbitrage cohérent entre des flux de 
+                            données parfois contradictoires. Pour résoudre cela, nous avons développé un algorithme de décision hiérarchisé où le LiDAR agit comme une couche 
+                            de sécurité souveraine ("Hard Safety"). Indépendamment des instructions de navigation, si le capteur laser détecte une présence physique dans un 
+                            rayon critique inférieur à 50 cm, il déclenche une préemption immédiate : les commandes de suivi de ligne sont instantanément écrasées (override) 
+                            pour prioriser la réaction face à l'obstacle, garantissant que la distance de sécurité prime toujours sur la trajectoire..</li>
+                        <li><strong>Validation Croisée :</strong> Une fois la présence d'un obstacle confirmée par le LiDAR, le système interroge la caméra pour effectuer une 
+                            vérification qualitative de la menace. Cette fusion de capteurs dicte le comportement du robot. 
+                            <br>Si c'est un humain -> <strong>Arrêt total</strong> maintenu tant que la personne est détectée par l'un des deux capteurs. 
+                            <br>Si c'est un objet inanimé -> <strong>Manœuvre d'évitement</strong> l'algorithme autorise une navigation dynamique et enclenche une manœuvre 
+                                d'évitement autonome par la gauche pour contourner l'obstacle avant par la gauche et de reprendre sa route..
+                        </li>
+                    </ul>
+                </div>
+                <div class="visual-box" style="background: white; padding: 10px;">
+                    <img src="media/logigramme_evitement_obstacle.png" 
+                         alt="Logigramme de décision" 
+                         class="zoomable-image" 
+                         onclick="openModal(this)">
+                    <img src="media/logigramme_vehicule.png" 
+                         alt="Logigramme de décision" 
+                         class="zoomable-image" 
+                         onclick="openModal(this)">
+
+                    <p style="text-align: center; color: #333; font-size: 0.8rem; margin-top: 5px;"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title">Tests et Validation</h2>
+            <div class="visual-box">
+                    <video controls style="width: 40%;">
+                        <source src="media/vehicule_test.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+                </div>
+            
+            <div class="visual-box">
+                    <video controls style="width: 100%;">
+                        <source src="media/vehicule_pov.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: 40px 0;">
+            <a href="index.html" class="btn">← Revenir à l'accueil</a>
+            <p style="margin-top: 30px; font-size: 0.9rem; color: #64748b;">&copy; 2026 Anas Mouaddab</p>
+        </div>
+    </footer>
+
+    <div id="myModal" class="modal" onclick="closeModal()">
+      <span class="close-text">&times;</span>
+      <img class="modal-content" id="img01">
+    </div>
+    <script>
+        function openModal(element) {
+            document.getElementById("myModal").style.display = "block";
+            document.getElementById("img01").src = element.src;
+        }
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

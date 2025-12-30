@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDesk Hologram | Computer Vision</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques */
+        .project-hero {
+            height: 70vh;
+            /* FICHIER MEDIA : Capture d'écran de l'interface 3D */
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.7), var(--bg-color)), url('media/hologram-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 60px;
+        }
+
+        .content-section { padding: 60px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .tech-list { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        .tech-badge {
+            background: rgba(56, 189, 248, 0.1); color: var(--accent-color);
+            border: 1px solid var(--accent-color); padding: 5px 15px; border-radius: 20px;
+            font-family: 'Roboto Mono', monospace; font-size: 0.9rem;
+        }
+
+        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .visual-box { border-radius: 12px; overflow: hidden; border: 1px solid #334155; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .visual-box img, .visual-box video { width: 100%; display: block; }
+        
+        /* Lightbox (Zoom) */
+        .zoomable-image { cursor: zoom-in; transition: 0.3s; }
+        .zoomable-image:hover { opacity: 0.9; }
+        .modal { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); }
+        .modal-content { margin: auto; display: block; width: 80%; max-width: 1200px; max-height: 90vh; object-fit: contain; }
+        .close-text { position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
+
+        @media (max-width: 768px) { .split-layout { grid-template-columns: 1fr; } .project-hero { height: 50vh; } }
+    </style>
+</head>
+<body>
+
+    <header class="project-hero">
+        <div class="container">
+            <a href="index.html" style="color: #cbd5e1; text-decoration: none; margin-bottom: 15px; display: block;">← Retour aux projets</a>
+            <h1>SmartDesk <span class="accent">Hologram</span></h1>
+            <p class="subtitle" style="max-width: 650px; color: #e2e8f0;">
+                Module de réalité virtuelle "Fish Tank" transformant un écran standard en fenêtre 3D. 
+                Utilise le tracking facial pour adapter la perspective en temps réel.
+            </p>
+            <div class="tech-list">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">OpenGL (PyOpenGL)</span>
+                <span class="tech-badge">MediaPipe (AI)</span>
+                <span class="tech-badge">PyGame</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="split-layout">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Le Moteur de l'Illusion</h2>
+                    <p>L'objectif n'est pas d'afficher de la 3D statique, mais de créer une illusion de profondeur parfaite (effet "Off-Axis"). Pour cela, le logiciel doit connaître la position exacte des yeux de l'utilisateur par rapport à l'écran.</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Head Tracking :</strong> Utilisation de <em>MediaPipe FaceMesh</em> pour détecter les repères faciaux en temps réel via la webcam.</li>
+                        <li><strong>Calcul 3D :</strong> Estimation de la position (X, Y, Z) de la tête en cm, basée sur la distance inter-pupillaire moyenne.</li>
+                        <li><strong>Lissage :</strong> Algorithme de smoothing pour éliminer les micro-tremblements de la caméra et rendre l'expérience fluide.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <img src="media/tracking-visu.jpg" alt="Visualisation du tracking facial MediaPipe">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <h2 class="section-title">Mathématiques : Projection Off-Axis</h2>
+            <div class="split-layout">
+                <div class="visual-box" style="background: white; padding: 10px;">
+                    <img src="media/frustum-maths.png" 
+                         alt="Schéma de déformation du Frustum OpenGL" 
+                         class="zoomable-image" 
+                         onclick="openModal(this)">
+                    <p style="text-align: center; color: #333; font-size: 0.8rem; margin-top: 5px;">(Cliquez pour agrandir le schéma)</p>
+                </div>
+                <div>
+                    <p>C'est ici que réside la complexité technique. Contrairement à un jeu vidéo classique où la caméra tourne, ici la caméra virtuelle reste fixe, mais sa <strong>pyramide de vision (Frustum)</strong> se déforme.</p>
+                    <p>Le script <code>scene_renderer.py</code> utilise <strong>OpenGL</strong> pour modifier la matrice de projection (<code>glFrustum</code>) dynamiquement.</p>
+                    <p style="margin-top: 20px; border-left: 3px solid var(--secondary-accent); padding-left: 15px; color: #cbd5e1;">
+                        <em>Résultat : Si l'utilisateur penche la tête à gauche, il voit le côté droit des objets 3D, exactement comme s'il regardait à travers une vraie fenêtre.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="split-layout">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Interaction Sans Contact</h2>
+                    <p>Le module intègre un contrôle gestuel complet pour manipuler les objets (fichiers .STL exportés depuis SolidWorks).</p>
+                    <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
+                        <li><strong>Detection :</strong> <em>MediaPipe Hands</em> repère la main dominante.</li>
+                        <li><strong>Zoom :</strong> Calculé via la distance ("Pinch") entre le pouce et l'index.</li>
+                        <li><strong>Rotation :</strong> Basée sur la position relative de la main par rapport au centre de l'écran.</li>
+                        <li><strong>Import STL :</strong> L'utilisateur peut charger ses propres modèles CAD via une interface GUI (Tkinter) intégrée à la vue OpenGL.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <video controls style="width: 100%;">
+                        <source src="media/hologram-demo.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: 40px 0;">
+            <a href="index.html" class="btn">← Revenir à l'accueil</a>
+            <p style="margin-top: 30px; font-size: 0.9rem; color: #64748b;">&copy; 2026 Anas Mouaddab</p>
+        </div>
+    </footer>
+
+    <div id="myModal" class="modal" onclick="closeModal()">
+      <span class="close-text">&times;</span>
+      <img class="modal-content" id="img01">
+    </div>
+    <script>
+        function openModal(element) {
+            document.getElementById("myModal").style.display = "block";
+            document.getElementById("img01").src = element.src;
+        }
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Anas MOUADDAB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="hero">
+        <canvas id="neuro-canvas"></canvas>
+        <div class="container">
+            <h1>Anas MOUADDAB</span></h1>
+            <p class="subtitle">Ingénierie des Systèmes • Robotique • AI Embarquée</p>
+            <p class="bio">Passionné par la fusion entre le hardware et l'intelligence artificielle. Je conçois des systèmes autonomes, du drone agricole au robot piloté par AI.</p>
+            <a href="#projets" class="btn">Voir mes réalisations</a>
+        </div>
+    </header>
+
+    <section id="projets">
+        <div class="container">
+            <h2 class="section-title">Projets Réalisés</h2>
+            
+            <div class="projects-grid">
+
+                <a href="spiderbot.html" style="text-decoration: none; color: inherit; display: block;">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="tag">Robotics & AI</span>
+                        <h3>Spider Bot AI</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Robot Quadripode intelligent capable d'adaptation dynamique.</p>
+                        <ul>
+                            <li><strong>Core :</strong> Raspberry Pi & Inverse Kinematics</li>
+                            <li><strong>AI :</strong> contrôle AI intégrée</li>
+                            <li><strong>Hardware :</strong> Servomoteurs haute précision</li>
+                        </ul>
+                    </div>
+                </div>
+                </a>
+
+                <a href="vehicule.html" style="text-decoration: none; color: inherit; display: block;">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="tag">Autonomous System</span>
+                        <h3>Véhicule Autonome</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Robot mobile autonome pour navigation urbaine.</p>
+                        <ul>
+                            <li><strong>Control :</strong> Raspberry Pi 4 & LiDAR</li>
+                            <li><strong>Vision :</strong> Traitement d'image & Signalisation</li>
+                            <li><strong>Algo :</strong> Planning de la trajectoire & Evitement d'obstacles</li>
+                        </ul>
+                    </div>
+                </div>
+                </a>
+
+                <a href="drone.html" style="text-decoration: none; color: inherit; display: block;">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="tag">Aerial & IoT</span>
+                        <h3>Drone Agriculteur</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Système complet pour l'agriculture de précision et la surveillance.</p>
+                        <ul>
+                            <li><strong>Flight Controller :</strong> Navio 2 + Raspberry Pi</li>
+                            <li><strong>IoT :</strong> Capteurs environnementaux connectés</li>
+                            <li><strong>UI :</strong> Interface de contrôle temps réel</li>
+                        </ul>
+                    </div>
+                </div>
+                </a>
+
+                <a href="hologram.html" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="tag">Computer Vision</span>
+                            <h3>SmartDesk Hologram</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Illusion d'optique 3D temps réel ("Fish Tank VR") sur écran standard.</p>
+                            <ul>
+                                <li><strong>Tech :</strong> Python, OpenGL, MediaPipe</li>
+                                <li><strong>Core :</strong> Head Tracking & Off-Axis Projection</li>
+                                <li><strong>Feature :</strong> Contrôle gestuel & Import STL</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Contact : <a href="mailto:anasmouaddab10@gmail.com">anasmouaddab10@gmail.com</a></p>
+            <p class="copyright">&copy; 2026 Anas Mouaddab. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+    // --- SCRIPT D'ANIMATION TYPE "CIRCUIT/NEURAL" ---
+    const canvas = document.getElementById('neuro-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Configuration des couleurs (Ton Cyan #38bdf8)
+    const particleColor = 'rgba(56, 189, 248, 0.7)'; 
+    const lineColor = 'rgba(56, 189, 248, 0.2)'; // Les fils sont plus discrets
+
+    let particlesArray;
+
+    // Ajuster la taille du canvas à l'écran
+    function setCanvasSize() {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+    window.addEventListener('resize', setCanvasSize);
+    setCanvasSize();
+
+    // Création des particules (les "Nœuds")
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 1; // Taille variable
+            this.speedX = (Math.random() * 1.5) - 0.75; // Vitesse lente
+            this.speedY = (Math.random() * 1.5) - 0.75;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Rebondir sur les bords (optionnel, ici on fait traverser)
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
+        }
+        draw() {
+            ctx.fillStyle = particleColor;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        particlesArray = [];
+        // Nombre de particules selon la taille de l'écran (moins sur mobile)
+        let numberOfParticles = (canvas.height * canvas.width) / 9000;
+        for (let i = 0; i < numberOfParticles; i++) {
+            particlesArray.push(new Particle());
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            particlesArray[i].draw();
+
+            // Dessiner les "fils" entre les particules proches
+            for (let j = i; j < particlesArray.length; j++) {
+                const dx = particlesArray[i].x - particlesArray[j].x;
+                const dy = particlesArray[i].y - particlesArray[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) { // Si proche, on connecte
+                    ctx.beginPath();
+                    ctx.strokeStyle = lineColor;
+                    ctx.lineWidth = 0.5; // Fil fin
+                    ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                    ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+</script>
+</body>
+</html>
