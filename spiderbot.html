@@ -162,7 +162,7 @@
                         <li><strong>Alimentation :</strong> 4 Batteries Lithium avec Buck Converters. L'alimentation est régulée via des circuits séparés pour isoler la partie logique (sensible) de la partie puissance (moteurs), assurant une stabilité parfaite.</li>
                     </ul>
                 </div>
-                <div class="visual-box" controls style="width: 70%;">
+                <div class="visual-box" controls style="width: 90%;">
                     <img src="media/spiderbot.png" alt="Vue éclatée des composants hardware"
                         class="zoomable-image" 
                         onclick="openModal(this)">
@@ -175,12 +175,7 @@
     <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
         <div class="container">
             <div class="split-layout">
-                <div class="visual-box">
-                    <video controls style="width: 100%;">
-                        <source src="media/spiderbot_simulation.mp4" type="video/mp4">
-                        Votre navigateur ne supporte pas la vidéo.
-                    </video>
-                </div>
+                
                 <div>
                     <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Cinématique Inverse (IK)</h2>
                     <p>Avant d'envoyer la moindre commande aux moteurs, chaque mouvement a été modélisé mathématiquement.</p>
@@ -197,6 +192,12 @@
                         moteurs simples interprétables par le microcontrôleur. Cette étape de simulation a permis de valider les limites mécaniques et 
                         d'éviter les collisions avant l'implémentation en Python sur le robot réel.</em>
                     </p>
+                </div>
+                <div class="visual-box">
+                    <video controls style="width: 100%;">
+                        <source src="media/spiderbot_simulation.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
                 </div>
             </div>
         </div>

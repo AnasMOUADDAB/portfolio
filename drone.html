@@ -66,12 +66,6 @@
         <div class="container">
             <h2 class="section-title">Architecture Distribuée</h2>
             <div class="split-layout">
-                <div class="visual-box" style="background: white; padding: 10px;">
-                    <img src="media/IOT.png" 
-                         alt="Schéma de l'architecture IoT Drone et Sol" 
-                         class="zoomable-image" 
-                         onclick="openModal(this)">
-                </div>
                 <div>
                     <p>La force de ce projet réside dans la communication entre trois entités distinctes :</p>
                     <ul style="margin-left: 20px; color: #cbd5e1; margin-top: 20px; line-height: 1.8;">
@@ -79,6 +73,12 @@
                         <li><strong>Le Réseau Terrestre :</strong> Des nœuds fixes basés sur <strong>ESP32</strong> plantés dans le sol pour remonter l'humidité de la terre.</li>
                         <li><strong>Le Hub de Contrôle :</strong> Une interface centrale qui agrège toutes les données via un protocole IoT pour aider l'agriculteur à décider.</li>
                     </ul>
+                </div>
+                <div class="visual-box" style="background: white; padding: 10px;">
+                    <img src="media/IOT.png" 
+                         alt="Schéma de l'architecture IoT Drone et Sol" 
+                         class="zoomable-image" 
+                         onclick="openModal(this)">
                 </div>
             </div>
         </div>
@@ -95,8 +95,8 @@
                         <li><strong>Capteurs :</strong> Le drone transporte ses propres capteurs de température/humidité pour cartographier le micro-climat.</li>
                     </ul>
                 </div>
-                <div class="visual-box">
-                    <img src="media/drone.png" alt="Montage Navio2 sur Raspberry Pi">
+                <div class="visual-box" controls style="width: 80%;">
+                    <img src="media/drone.png" alt="Montage Navio2 sur Raspberry Pi" >
                 </div>
             </div>
         </div>
@@ -106,13 +106,6 @@
         <div class="container">
             <h2 class="section-title">2. Simulation & Path Planning</h2>
             <div class="split-layout">
-                <div class="visual-box">
-                    <video controls style="width: 100%;">
-                        <source src="media/Simulation_Drone.mp4" type="video/mp4">
-                        Votre navigateur ne supporte pas la vidéo.
-                    </video>
-                    <img src="media/mapping_drone.png" alt="Mapping du drone">
-                </div>
                 <div>
                     <h3>Algorithme de Balayage</h3>
                     <p>Avant le vol réel, la mission a été entièrement modélisée sous <strong>Matlab</strong> pour optimiser la trajectoire.</p>
@@ -121,6 +114,13 @@
                         <li><strong>Acquisition de Données :</strong> Le script simule la capture des capteurs à intervalles réguliers sur chaque point de passage.</li>
                         <li><strong>Output :</strong> Génération automatique d'une <strong>Heatmap</strong> (carte de chaleur) montrant les zones critiques (ex: zones trop sèches ou trop chaudes) sur la carte du terrain.</li>
                     </ul>
+                </div>
+                <div class="visual-box">
+                    <video controls style="width: 100%;">
+                        <source src="media/Simulation_Drone.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+                    <img src="media/mapping_drone.png" alt="Mapping du drone">
                 </div>
             </div>
         </div>

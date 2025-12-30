@@ -84,12 +84,6 @@
         <div class="container">
             <h2 class="section-title">Projection Off-Axis</h2>
             <div class="split-layout">
-                <div class="visual-box" style="background: white; padding: 10px;">
-                    <video controls style="width: 100%;">
-                        <source src="media/head_tracking.mp4" type="video/mp4">
-                        Votre navigateur ne supporte pas la vidéo.
-                    </video>
-                </div>
                 <div>
                     <p>C'est ici que réside la complexité technique majeure du projet car l'approche diffère radicalement du rendu 3D traditionnel. Contrairement à un jeu vidéo classique où la caméra effectue des 
                         rotations autour d'un point central, notre système simule une fenêtre physique immobile en utilisant une projection dite Off-Axis. Le script scene_renderer.py abandonne la caméra standard 
@@ -100,6 +94,12 @@
                     <p style="margin-top: 20px; border-left: 3px solid var(--secondary-accent); padding-left: 15px; color: #cbd5e1;">
                         <em>Résultat : Si l'utilisateur penche la tête à gauche, il voit le côté droit des objets 3D, exactement comme s'il regardait à travers une vraie fenêtre.</em>
                     </p>
+                </div>
+                <div class="visual-box" style="background: white; padding: 10px;">
+                    <video controls style="width: 100%;">
+                        <source src="media/head_tracking.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
                 </div>
             </div>
         </div>
