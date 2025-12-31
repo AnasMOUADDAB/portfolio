@@ -70,63 +70,89 @@
             margin-top: 40px;
         }
 
+        /* --- Nouveau style pour la section Partenaires --- */
+        .partners-section {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .partner-logo {
+            width: 80px; /* Logo en très petit format */
+            height: auto;
+            filter: grayscale(100%); /* Optionnel : effet gris pour s'intégrer */
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+        
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .split-layout { grid-template-columns: 1fr; }
             .project-hero { height: 50vh; }
+            .partners-section { flex-direction: column; text-align: center; }
         }
 
         /* --- Style pour le Zoom (Lightbox) --- */
-.zoomable-image {
-    cursor: zoom-in; /* Change le curseur pour montrer qu'on peut cliquer */
-    transition: 0.3s;
-}
+        .zoomable-image {
+            cursor: zoom-in; /* Change le curseur pour montrer qu'on peut cliquer */
+            transition: 0.3s;
+        }
 
-.zoomable-image:hover {
-    opacity: 0.9;
-}
+        .zoomable-image:hover {
+            opacity: 0.9;
+        }
 
-/* Le fond noir de la fenêtre modale */
-.modal {
-    display: none; /* Caché par défaut */
-    position: fixed;
-    z-index: 1000; /* Au-dessus de tout */
-    padding-top: 50px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9); /* Noir presque opaque */
-}
+        /* Le fond noir de la fenêtre modale */
+        .modal {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            z-index: 1000; /* Au-dessus de tout */
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9); /* Noir presque opaque */
+        }
 
-/* L'image zoomée */
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 1200px;
-    max-height: 90vh; /* Ne dépasse pas la hauteur de l'écran */
-    object-fit: contain;
-    animation-name: zoom;
-    animation-duration: 0.3s;
-}
+        /* L'image zoomée */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1200px;
+            max-height: 90vh; /* Ne dépasse pas la hauteur de l'écran */
+            object-fit: contain;
+            animation-name: zoom;
+            animation-duration: 0.3s;
+        }
 
-/* Petite animation d'ouverture */
-@keyframes zoom {
-    from {transform:scale(0)} 
-    to {transform:scale(1)}
-}
+        /* Petite animation d'ouverture */
+        @keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
 
-/* Bouton fermer (X) */
-.close-text {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        /* Bouton fermer (X) */
+        .close-text {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -149,6 +175,21 @@
         
     </header>
         
+    <section class="content-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="partners-section">
+                <img src="media/evorobs_logo.png" alt="Logo EVOROBS">
+                
+                <div>
+                    <h3 style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 5px;">Collaboration & Support</h3>
+                    <p style="color: #94a3b8; font-size: 0.95rem; margin: 0;">
+                        Projet réalisé en collaboration avec le club de robotique <strong>EVOROBS</strong> de l'Université d'Évry Paris-Saclay, qui a fourni le soutien logistique, l'espace de travail et le matériel nécessaire à la réalisation de ce prototype.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="content-section">
         <div class="container">
             <div class="split-layout">
@@ -231,6 +272,7 @@
             </div>
         </div>
     </section>
+
 
     <section class="content-section">
         <div class="container">
